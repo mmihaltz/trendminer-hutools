@@ -3,6 +3,7 @@
 # Input file: tsv with 5 columns with all annotations (see *.ner)
 # Output (stdout): XML format of input that NooJ likes
 
+# Author: Marton Mihaltz
 
 import re
 import sys

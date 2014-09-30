@@ -13,7 +13,7 @@ Insert new record into dbtrendminer.fb_comments_annots for each annotation.
 
 Calculate scores for each document and insert records into dbtrendminer.fb_comments_scores.
 
-@author: MM
+@author: Marton Mihaltz
 """
 
 import collections
