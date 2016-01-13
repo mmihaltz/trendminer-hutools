@@ -19,9 +19,9 @@ def get_access_token():
 			ezeket megadva lehet access tokent igényelni
 			alább toth ubul 'pro1' alkalmazásának azonosítója és titka szerepel
 	"""
-	client_id = 'client_id=YOURCLIENTID'
-	client_secret = 'client_secret=YOURCLIENTSECRET'
-	link = 'https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&{_id}&{_sec}'
+	client_id = 'YOURCLIENTID'
+	client_secret = 'YOURCLIENTSECRET'
+	link = 'https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id={_id}&client_secret={_sec}'
 	r = requests.get(link.format(_id=client_id, _sec=client_secret))
 	access_token = r.text.split('=')[1]
 	return r.text

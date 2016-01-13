@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # coding=utf8
 
-# Author: Ivan Mittelholcz
+"""
+Dowload public comments and posts from list of fb pages within given dates
+Authors: Ivan Mittelholcz, Marton Mihaltz
+https://github.com/mmihaltz/trendminer-hutools
+"""
 
 import sys
 import json
@@ -19,10 +23,10 @@ def get_access_token():
 			ezeket megadva lehet access tokent igényelni
 			alább toth ubul 'pro1' alkalmazásának azonosítója és titka szerepel
 	"""
-	client_id = 'client_id=YOURCLIENTID'
-	client_secret = 'client_secret=YOURCLIENTSECRET'
-	link = 'https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&{_id}&{_sec}'
-	r = requests.get(link.format(_id=client_id, _sec=client_secret))
+	client_id = 'YOURCLIENTIDHERE'
+	client_secret = 'YOURCLIENTSECRETHERE'
+	link = 'https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id={0}&client_secret={1}'
+	r = requests.get(link.format(client_id, client_secret))
 	access_token = r.text.split('=')[1]
 	return r.text
 
@@ -54,11 +58,11 @@ def args_handling():
 				-h: Segítség megjelenítése.
 				Más esetben használati utasítás kiírása és kilépés
 	"""
-	desc_prog = 'Posztok és kommentjeik letöltése a FB-ról. Adatok kiírása .json fájlokba.'
-	desc_date = 'Adatok letöltése a megadott dátumtól (YYYY-MM-DD).'
-	desc_until = 'Adatok letöltése a megadott dátumig (YYYY-MM-DD).'
-	desc_input = 'Bemenő adatok: FB id-kat tartlmazó .cvs fájl. Az id-k az első oszlopban kell legyenek.'
-	desc_target = 'Kimeneti fájlok könyvtára.'
+	desc_prog = 'Posztok es kommentjeik letoltése a FB-rol. Adatok kiirasa .json fajlokba.'
+	desc_date = 'Adatok letoltese a megadott datumtol (YYYY-MM-DD).'
+	desc_until = 'Adatok letoltese a megadott datumig (YYYY-MM-DD).'
+	desc_input = 'Bemeno adatok: FB id-kat tartlmazo .cvs fajl. Az id-k az elso oszlopban kell legyenek.'
+	desc_target = 'Kimeneti fajlok konyvtara.'
 	pars = argparse.ArgumentParser(description=desc_prog)
 	pars.add_argument('-d', '--date', help=desc_date, type=date_check, required=True)
 	pars.add_argument('-u', '--until', help=desc_until, type=date_check, required=False)
@@ -66,7 +70,7 @@ def args_handling():
 	pars.add_argument('-t', '--target', help=desc_target, type=target_check, required=True)
 	args = pars.parse_args()
 	if args.until and args.date >= args.until:
-		sys.stderr.write('\n\tRossz a dátumok sorrendje!\n\n')
+		sys.stderr.write('\n\tRossz a datumok sorrendje!\n\n')
 		sys.exit(1)
 	return {'date':args.date, 'until':args.until, 'file': args.input, 'target': args.target}
 
@@ -77,7 +81,7 @@ class FB:
 		self.until = until
 		fields = '?fields=posts.fields(shares,from.fields(id),caption,message,comments.fields(created_time,id,message,from,comments.fields(created_time,id,message,from)))'
 		self.access = '&' + get_access_token() # újra kérünk minden id-hez, nehogy lejárjon menet közben
-		self.base_link = 'https://graph.facebook.com/' + id_
+		self.base_link = 'https://graph.facebook.com/v2.0/' + id_
 		link = self.base_link + fields + self.access
 		self.data = {'id':id_, 'posts':{'data':[]}}
 		self.get_data(link, self.data['posts']['data'])
