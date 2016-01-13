@@ -17,7 +17,6 @@ def get_access_token():
 			ezután az 'Alkalmazások' menüpontban lehet új alkalmazást létrehozni
 			az alkalmazás kap egy alkalmazás azonosítót és egy app secret-et
 			ezeket megadva lehet access tokent igényelni
-			alább toth ubul 'pro1' alkalmazásának azonosítója és titka szerepel
 	"""
 	client_id = 'YOURCLIENTID'
 	client_secret = 'YOURCLIENTSECRET'
