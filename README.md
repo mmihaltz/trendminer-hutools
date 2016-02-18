@@ -3,9 +3,9 @@ trendminer-hutools
 
 This package contains tools (python) that were used to collect and process Hungarian data in the Trendminer project: 
 
-1) tools to periodically download new and updated public posts and comments published on specific Facebook pages (`fbgraph.py` and `old_post-new_comment.py`)
-2) a tool to convert NLP output files (from trendminer-hunlp) to NooJ input XML files (`tsv2noojxml.py`)
-3) a tool to extract annotations from NooJ output files (`annots.py`)
+- tools to periodically download new and updated public posts and comments published on specific Facebook pages (`fbgraph.py` and `old_post-new_comment.py`)
+- a tool to convert NLP output files (from trendminer-hunlp) to [NooJ](http://www.nooj-association.org/) input XML files (`tsv2noojxml.py`)
+- a tool to extract annotations from NooJ output files (`annots.py`)
 
 
 Authors: Márton Miháltz <mmihaltz@gmail.com>, Iván Mittelholcz
