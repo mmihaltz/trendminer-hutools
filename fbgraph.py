@@ -17,10 +17,8 @@ import os.path
 
 
 def get_access_token():
-	"""	regisztrálni kell FB fejlesztőként a https://developers.facebook.com/ oldalon
-			ezután az 'Alkalmazások' menüpontban lehet új alkalmazást létrehozni
-			az alkalmazás kap egy alkalmazás azonosítót és egy app secret-et
-			ezeket megadva lehet access tokent igényelni
+	"""Register as a FB developer at https://developers.facebook.com/ oldalon,
+	   create a new Application, use the id and secret key from there
 	"""
 	client_id = 'YOURCLIENTIDHERE'
 	client_secret = 'YOURCLIENTSECRETHERE'
@@ -52,16 +50,13 @@ def target_check(dir_str):
 	else: raise IOError('Nincs ilyen könyvtár!')
 
 def args_handling():
-	"""	Parancssori argumentumok kezelése:
-				-d DÁTUM: csak az ezutáni postok/kommentek letöltése. Megadott dátumot ellenőrzi. Opcionális.
-				-h: Segítség megjelenítése.
-				Más esetben használati utasítás kiírása és kilépés
+	"""	Parse command line arguments
 	"""
-	desc_prog = 'Posztok es kommentjeik letoltése a FB-rol. Adatok kiirasa .json fajlokba.'
-	desc_date = 'Adatok letoltese a megadott datumtol (YYYY-MM-DD).'
-	desc_until = 'Adatok letoltese a megadott datumig (YYYY-MM-DD).'
-	desc_input = 'Bemeno adatok: FB id-kat tartlmazo .cvs fajl. Az id-k az elso oszlopban kell legyenek.'
-	desc_target = 'Kimeneti fajlok konyvtara.'
+	desc_prog = 'Download posts and comments from FB into json files'
+	desc_date = 'Download data starting from given date (YYYY-MM-DD)'
+	desc_until = 'Download data until given date (YYYY-MM-DD)'
+	desc_input = 'Input is a csv file with the FB page ids in the 1st column'
+	desc_target = 'Directory for output files'
 	pars = argparse.ArgumentParser(description=desc_prog)
 	pars.add_argument('-d', '--date', help=desc_date, type=date_check, required=True)
 	pars.add_argument('-u', '--until', help=desc_until, type=date_check, required=False)
@@ -69,7 +64,7 @@ def args_handling():
 	pars.add_argument('-t', '--target', help=desc_target, type=target_check, required=True)
 	args = pars.parse_args()
 	if args.until and args.date >= args.until:
-		sys.stderr.write('\n\tRossz a datumok sorrendje!\n\n')
+		sys.stderr.write('\n\tInvalid dates!\n\n')
 		sys.exit(1)
 	return {'date':args.date, 'until':args.until, 'file': args.input, 'target': args.target}
 
@@ -106,7 +101,7 @@ class FB:
 			dl_date = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S+0000') # letöltés időpontja
 		except:
 			self.data = { 'error':link }
-			sys.stderr.write('\tHiba a feldolgozásban!')
+			sys.stderr.write('\tProcessing error!')
 			return
 		if 'posts' in req: req = req['posts'] # posts-on kívüli adatok nem fontosak
 		ok = True # lesz-e rekurzív hívás
